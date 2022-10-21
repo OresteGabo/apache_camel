@@ -33,6 +33,28 @@ public class HelloWorld {
 		}
 	}
 
+	/**
+	 * dès que le message à envoyer atteigne le endpoint "direct:start", il sera directement envoyé à "seda:end"
+	 */
+	static void producerConsumer(String message) throws Exception{
+		
+
+		CamelContext context3=new DefaultCamelContext();
+		context3.addRoutes(new ProducerConsumerRoute());
+		context3.start();
+
+		//Source du message
+		ProducerTemplate producerTemplate= context3.createProducerTemplate();
+		producerTemplate.sendBody("direct:start", message);
+
+
+		//Destination du message
+		ConsumerTemplate consumerTemplate=context3.createConsumerTemplate();
+		String messageRecu=consumerTemplate.receiveBody("seda:end",String.class);
+		
+
+		System.out.println(String.format("Le message envoyé est %s",messageRecu));
+	}
 	
 
 }
