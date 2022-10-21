@@ -19,19 +19,16 @@ public class HelloWorld {
 		 * Cette procédure prend place quand la boucle while est entrain de tourner avec context.start
 		 */
 		CamelContext context2=new DefaultCamelContext();
-		context2.addRoutes(new RouteBuilder() {
-
-			@Override
-			public void configure() throws Exception {
-				from("file:source?noop=true").to("file:destination");		
-			}
-			
-		});
+		context2.addRoutes(new FileCopyRoute() );
 		
 		while(true){
 			context2.start();
-		
 		}
+
+
+		/**
+		 * 
+		 */
 
 	}
 
